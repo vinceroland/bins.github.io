@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Traversal App</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <header>
+        <h1>DOM Traversal Interactive</h1>
+        <div id="student-info">
+            <div>
+                <p>Name:  <b> Vincent Roland C. Atole</b></p>
+                <p>Sex:  <b>Male</b></p>
+                <p>Address:  <b>Buyo, Goa, Camarines Sur</b></p>
+                <p>Course, Year, and Section:  <b>BSIT-2A</b></p>
+            </div>
+            <div>
+                <p>School:  <b>Partido State University</b></p>
+                <p>Semester and Academic Year:  <b>2nd Semester, A/Y 2024-2025</b></p>
+                <p>Subject:  <b>PF2 - Event Driven Programming</b></p>
+                <p>Instructor: <b>Arjay F. Abio</b></p> 
+            </div> 
+        </div>
+      
+    </header>
+    <main>
+        <div id="dom-hierarchy">
+            <div class="grandparent node">Grandparent
+                <div class="parent node">Parent 1
+                    <div class="child node">Child 1</div>
+                    <div class="child node">Child 2</div>
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <button id="traverse-up">Traverse Up</button>
+            <button id="traverse-down">Traverse Down</button>
+            <button id="traverse-next">Traverse Next Sibling</button>
+            <button id="traverse-prev">Traverse Previous Sibling</button>
+            <button id="add-child">Add Child</button>
+            <button id="delete-node">Delete Current</button>
+        </div>
+    </main>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
