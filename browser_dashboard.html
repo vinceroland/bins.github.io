@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Browser Environment Dashboard</title>
   <style>
     body {
@@ -10,17 +10,26 @@
       color: white;
       margin: 0;
       padding: 0;
+      transition: background-color 0.3s;
     }
     header {
-      background: #333;
+      background: #222;
       padding: 20px;
       text-align: center;
+      border-bottom: 5px solid #555;
     }
-    header h1, header p {
-      margin: 5px;
+    header h1 {
+      margin: 0 0 10px;
+    }
+    header p {
+      margin: 4px 0;
     }
     section {
       padding: 20px;
+    }
+    h2 {
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
     }
     button {
       margin: 5px 0;
@@ -29,7 +38,7 @@
       cursor: pointer;
     }
     .info-block {
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
   </style>
 </head>
@@ -54,9 +63,9 @@
 
     <div class="info-block">
       <h2>Page Information</h2>
-      <p>URL: <span id="url"></span></p>
-      <p>Hostname: <span id="hostname"></span></p>
-      <p>Page Title: <span id="pageTitle"></span></p>
+      <p>Current URL: <span id="url">https://github.com/vinceroland/bins.github.io/blob/main/browser_dashboard.html</span></p>
+      <p>Hostname: <span id="hostname">bins.github.io</span></p>
+      <p>Page Title: <span id="pageTitle">Browser Environment Dashboard</span></p>
       <button onclick="changeTitle()">Change Page Title</button>
     </div>
 
@@ -70,14 +79,46 @@
   </section>
 
   <script>
-    const browserInfo = `
-      Browser: ${navigator.userAgent} <br>
-      Platform: ${navigator.platform} <br>
-      Java Enabled: ${navigator.javaEnabled()} <br>
-      Screen Resolution: ${screen.width} x ${screen.height} <br>
-      Available Screen Size: ${screen.availWidth} x ${screen.availHeight} <br>
-      Color Depth: ${screen.colorDepth}
-    `;
-    document.getElementById('browserInfo').innerHTML = browserInfo;
+    
+    function displayBrowserInfo() {
+      const browserInfo = `
+        <strong>Browser:</strong> ${navigator.userAgent}<br>
+        <strong>Platform:</strong> ${navigator.platform}<br>
+        <strong>Java Enabled:</strong> ${navigator.javaEnabled()}<br>
+        <strong>Screen Resolution:</strong> ${screen.width} x ${screen.height}<br>
+        <strong>Available Screen Size:</strong> ${screen.availWidth} x ${screen.availHeight}<br>
+        <strong>Color Depth:</strong> ${screen.colorDepth}
+      `;
+      document.getElementById('browserInfo').innerHTML = browserInfo;
+    }
 
-    document.getElementBy
+   
+    function changeTitle() {
+      const newTitle = prompt("Enter a new page title:");
+      if (newTitle) {
+        document.title = newTitle;
+        document.getElementById('pageTitle').textContent = newTitle;
+      }
+    }
+
+
+    function applyBackgroundColor() {
+      const width = window.innerWidth;
+      if (width < 600) {
+        document.body.style.backgroundColor = 'blue';
+      } else if (width >= 600 && width < 992) {
+        document.body.style.backgroundColor = 'green';
+      } else {
+        document.body.style.backgroundColor = 'orange';
+      }
+    }
+
+  
+    displayBrowserInfo();
+    applyBackgroundColor();
+
+
+    window.addEventListener('resize', applyBackgroundColor);
+  </script>
+</body>
+</html>
