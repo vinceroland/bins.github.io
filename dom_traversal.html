@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>DOM Traversal App</title>
     <style>
-        /* Inlined from style.css */
         body {
             font-family: Segoe UI, sans-serif;
             font-size: large;
@@ -31,27 +30,37 @@
             text-align: left;
             padding: 20px;
             gap: 80px;
+            justify-content: center;
         }
 
-        .controls {
+        .center-container {
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            align-items: flex-start;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         #dom-hierarchy {
             text-align: center;
-            display:flex;
+            display: flex;
             flex-direction: column;
             align-items: center;
             width: fit-content;
             border: 3px solid #474747;
             border-radius: 5px;
-            margin: 40px;
+            margin: 20px;
             padding: 30px;
             background-color: rgb(221, 221, 221);
             transition: background-color 0.3s;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
         }
 
         .highlight {
@@ -94,7 +103,6 @@
             border-radius: 5px;
             padding: 10px 15px;
             cursor: pointer;
-            margin: 5px;
             transition: background-color 0.3s;
         }
 
@@ -127,25 +135,27 @@
         </div>
     </header>
     <main>
-        <div id="dom-hierarchy">
-            <div class="grandparent node">Grandparent
-                <div class="parent node">Parent 1
-                    <div class="child node">Child 1</div>
-                    <div class="child node">Child 2</div>
+        <div class="center-container">
+            <div id="dom-hierarchy">
+                <div class="grandparent node">Grandparent
+                    <div class="parent node">Parent 1
+                        <div class="child node">Child 1</div>
+                        <div class="child node">Child 2</div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="controls">
-            <button id="traverse-up">Traverse Up</button>
-            <button id="traverse-down">Traverse Down</button>
-            <button id="traverse-next">Traverse Next Sibling</button>
-            <button id="traverse-prev">Traverse Previous Sibling</button>
-            <button id="add-child">Add Child</button>
-            <button id="delete-node">Delete Current</button>
+            <div class="controls">
+                <button id="traverse-up">Traverse Up</button>
+                <button id="traverse-down">Traverse Down</button>
+                <button id="traverse-next">Traverse Next Sibling</button>
+                <button id="traverse-prev">Traverse Previous Sibling</button>
+                <button id="add-child">Add Child</button>
+                <button id="delete-node">Delete Current</button>
+            </div>
         </div>
     </main>
+
     <script>
-        // Inlined from app.js
         document.addEventListener('DOMContentLoaded', () => {
             let selectedNode = null;
 
@@ -188,26 +198,26 @@
                         return;
                     }
                     if (selectedNode.classList.contains('grandparent')) {
-                        const parentCount = selectedNode.children.length + 1;
+                        const parentCount = selectedNode.querySelectorAll('.parent').length + 1;
                         const newNode = document.createElement('div');
                         newNode.textContent = `Parent ${parentCount}`;
                         newNode.classList.add('parent', 'node');
                         selectedNode.appendChild(newNode);
                         highlightNode(newNode);
-                        for (let i = 0; i < 2; i++) {
-                            const childCount = newNode.children.length + 1;
+                        for (let i = 1; i <= 2; i++) {
                             const childNode = document.createElement('div');
-                            childNode.textContent = `Child ${childCount}`;
+                            childNode.textContent = `Child ${i}`;
                             childNode.classList.add('child', 'node');
                             newNode.appendChild(childNode);
-                            newNode.addEventListener('click', (event) => {
+                            childNode.addEventListener('click', (event) => {
                                 event.stopPropagation();
-                                highlightNode(newNode);
+                                highlightNode(childNode);
                             });
                         }
                         return;
                     }
-                    const childCount = selectedNode.children.length + 1;
+
+                    const childCount = selectedNode.querySelectorAll(':scope > .child').length + 1;
                     const newNode = document.createElement('div');
                     newNode.textContent = `Child ${childCount}`;
                     newNode.classList.add('child', 'node');
@@ -228,8 +238,9 @@
                         alert('Cannot delete the grandparent node.');
                         return;
                     }
-                    if (selectedNode.parentElement) {
-                        selectedNode.parentElement.removeChild(selectedNode);
+                    const parent = selectedNode.parentElement;
+                    if (parent) {
+                        parent.removeChild(selectedNode);
                         selectedNode = null;
                     } else {
                         alert('Cannot delete the root node.');
